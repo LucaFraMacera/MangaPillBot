@@ -1,0 +1,13 @@
+name = "botmanga"
+main = "src/index.ts"
+compatibility_date = "2023-12-18"
+
+kv_namespaces =[
+    {binding = "KVs", id="71f3e4c35ef742c987ccf78a3a3409e3"}
+]
+
+# Cron Triggers
+# Docs: https://developers.cloudflare.com/workers/platform/triggers/cron-triggers/
+# Configuration: https://developers.cloudflare.com/workers/wrangler/configuration/#triggers
+[triggers]
+crons = ["0 */2 * * *"] 
