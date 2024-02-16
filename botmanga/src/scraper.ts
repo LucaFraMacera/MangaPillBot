@@ -1,6 +1,4 @@
-import { Env } from "."
-import { MANGAS } from "./favourites"
-import { sendNotification } from "./telegramLogic"
+import { Env } from "./types"
 const KV_KEY = "mostRecentManga"
 const mangas:string[] = []
 const MANGA_SITE = "https://mangapill.com/chapters"
@@ -13,15 +11,18 @@ const rewriter = new HTMLRewriter()
       .on("img", {
         element(el) {
             const manganame = el.getAttribute("alt")
+            if(!manganame)
+                return
             if(manganame === mostRecentManga)
                 old= true
             if(index == 0)
                 newMostRecent = manganame!
-            if(!old)
+            if(!old){
                 mangas.push(manganame!)
+            }
             index++
         }
-      })
+    })
 export async function scrape(env:Env){
     mostRecentManga = await env.KVs.get(KV_KEY) || ""
     const response = await fetch(MANGA_SITE)
@@ -30,8 +31,6 @@ export async function scrape(env:Env){
     mangas.fill("")
     index = 0
     await consume(rewriter.transform(response).body!)
-    console.log(newMostRecent)
-    await sendNotification(env,mangas)
     await env.KVs.put(KV_KEY, newMostRecent)
     return mangas
 }

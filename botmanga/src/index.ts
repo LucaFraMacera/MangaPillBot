@@ -1,19 +1,27 @@
 import { scrape } from "./scraper";
-
-
-export interface Env {
-	KVs:KVNamespace
-	BOT_TOKEN:string
-	CHAT_ID:string
-}
-
+import { Env } from "./types";
+import { manageMessage, sendMessage, sendNotification } from "./telegramLogic";
 export default {
 	async scheduled(event: ScheduledEvent, env: Env, ctx: ExecutionContext): Promise<void> {
-		const result = await scrape(env)
-		console.log("Triggered",JSON.stringify(result))
+		try {
+			const result = await scrape(env)
+			await sendNotification(env,result)
+		} catch (error) {
+			await sendMessage(env.BOT_TOKEN,env.CHANNEL_ID,`An error has occured.\n${error}`)
+		}
+		
 	},
 	async fetch(request: Request, env: Env, ctx: ExecutionContext): Promise<Response> {
-		return new Response('RUNNING..');
+		if (request.method === "POST"){
+			const payload = await request.json()! as any
+			try{
+				console.log(payload)
+				await manageMessage(payload,env)
+			}catch(error){
+				await sendMessage(env.BOT_TOKEN,env.CHANNEL_ID,`An error has occured.\n${error}`)
+			}
+		}
+		return new Response('RUNNING...');
 	},
 
 };

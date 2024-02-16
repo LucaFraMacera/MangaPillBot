@@ -10,5 +10,10 @@ export const MANGAS = [
     "Chainsaw Man",
     "One-Punch Man",
     "Spy X Family",
-    "Vinland Saga"
+    "Vinland Saga",
+    "Fumetsu no Anata e",
+    "Oshi no Ko",
+    "Choujin X",
+    "One Piece",
+    "Made in Abyss"
 ]
