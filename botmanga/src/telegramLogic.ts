@@ -1,11 +1,14 @@
 import { Env } from "./types"
 import getMessageInfo from "./message"
-import { scrape } from "./scraper"
+import { scrapeMangapill,scrape9Anime } from "./scraper"
 
 
-export async function sendNotification(env:Env, newReleases:string[]) {
+export async function sendMangaNotification(env:Env, newReleases:string[]) {
    return await sendAllMangas(env.BOT_TOKEN,env.CHANNEL_ID,newReleases)
 }
+export async function sendAnimeNotification(env:Env, newReleases:string[]) {
+    return await sendAllAnimes(env.BOT_TOKEN,env.CHANNEL_ID,newReleases)
+ }
 export async function sendMessage(token:string,chatID:string,name:string) {
     const url = `https://api.telegram.org/bot${token}/sendMessage?chat_id=${chatID}&text=${name}&parse_mode=HTML`
     return await fetch(encodeURI(url))
@@ -30,7 +33,7 @@ export async function manageMessage(payload:any,env:Env){
                 break
             case "get":
                 try {
-                    const result = await scrape(env)
+                    const result = await scrapeMangapill(env)
                     if(result.length === 0){
                         await sendMessage(env.BOT_TOKEN,message.fromID,"No manga were released.")
                         return
@@ -39,6 +42,14 @@ export async function manageMessage(payload:any,env:Env){
                 } catch (error) {
                     await sendMessage(env.BOT_TOKEN,message.fromID,"Something went wrong 😐 (0€)")
                 }
+                break
+            case "get1":
+                const result = await scrape9Anime(env)
+                if(result.length === 0){
+                    await sendMessage(env.BOT_TOKEN,message.fromID,"No anime episode were released.")
+                    return
+                }
+                await sendAllAnimes(env.BOT_TOKEN, message.fromID, result)
                 break
             default:
                 break
@@ -49,9 +60,19 @@ export async function manageMessage(payload:any,env:Env){
 async function sendAllMangas(token:string,chatID:string,mangas:string[]){
     if(mangas.length == 0)
         return
-    let text = "Hey, wake up!\n"
+    let text = "Hey, <b>wake up!</b> New <b>chapters</b> dropped!\n"
     mangas.map((manga)=>{
         text += `- <b>${removeSpecialCaracters(replaceHTMLCodes(manga))}</b> has been released.\n\n`
+    })
+    await sendMessage(token,chatID,text)
+}
+
+async function sendAllAnimes(token:string,chatID:string,animes:string[]){
+    if(animes.length == 0)
+        return
+    let text = "Hey, <b>wake up!</b> New <b>episodes</b> dropped!\n"
+    animes.map((anime)=>{
+        text += `- <b>${removeSpecialCaracters(replaceHTMLCodes(anime))}</b> has been released.\n\n`
     })
     await sendMessage(token,chatID,text)
 }
