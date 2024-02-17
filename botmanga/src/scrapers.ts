@@ -67,7 +67,17 @@ export class NineAnimeScraper extends Scraper{
     constructor(){
         super("https://9animetv.to/recently-updated","mostRecentAnime")
     }
-
+    protected insertNewRelease = (release:string) =>{
+        if(this.index >= 40)
+            return
+        if(release === this.mostRecent)
+            this.old= true
+        if(this.index == 0)
+            this.newMostRecent = release
+        if(!this.old)
+            this.releases.push(release)
+        this.index++
+    }
     scrape = async (env:Env)=>{
         this.mostRecent = await env.KVs.get(this.KEY) || ""
         const response = await fetch(this.site)

@@ -38,6 +38,7 @@ export async function manageMessage(payload:any,env:Env){
                         await sendMessage(env.BOT_TOKEN,message.fromID,"No manga were released.")
                         return
                     }
+                    console.log(result)
                     await sendAllMangas(env.BOT_TOKEN,env.CHANNEL_ID,result)
                 } catch (error) {
                     await sendMessage(env.BOT_TOKEN,message.fromID,"Something went wrong 😐 (0€)")
@@ -49,6 +50,7 @@ export async function manageMessage(payload:any,env:Env){
                     await sendMessage(env.BOT_TOKEN,message.fromID,"No anime episode were released.")
                     return
                 }
+                console.log(result)
                 await sendAllAnimes(env.BOT_TOKEN, message.fromID, result)
                 break
             default:
