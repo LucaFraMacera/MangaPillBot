@@ -1,4 +1,5 @@
-import { MangapillScraper, NineAnimeScraper } from "./scrapers"
+import {MangapillScraper,NineAnimeScraper} from "./scrapers/index"
+
 import { Env } from "./types"
 
 export async function scrapeMangapill(env:Env){
