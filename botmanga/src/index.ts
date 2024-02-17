@@ -4,9 +4,8 @@ import { manageMessage, sendMessage, sendMangaNotification, sendAnimeNotificatio
 export default {
 	async scheduled(event: ScheduledEvent, env: Env, ctx: ExecutionContext): Promise<void> {
 		try {
-			const mangaReleases = await scrapeMangapill(env)
-			const animeReleases = await scrape9Anime(env)
-			await sendAnimeNotification(env,mangaReleases)
+			const [mangaReleases, animeReleases] = await Promise.all([scrapeMangapill(env),scrape9Anime(env)])
+			await sendMangaNotification(env,mangaReleases)
 			await sendAnimeNotification(env,animeReleases)
 		} catch (error) {
 			await sendMessage(env.BOT_TOKEN,env.CHANNEL_ID,`An error has occured while scraping.\n${error}`)
