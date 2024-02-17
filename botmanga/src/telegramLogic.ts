@@ -1,6 +1,6 @@
 import { Env } from "./types"
 import getMessageInfo from "./message"
-import { scrapeMangapill,scrape9Anime } from "./scraper"
+import { scrapeMangapill,scrape9Anime } from "./cronsOperations"
 
 
 export async function sendMangaNotification(env:Env, newReleases:string[]) {

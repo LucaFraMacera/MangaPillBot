@@ -1,4 +1,4 @@
-import { scrapeMangapill, scrape9Anime } from "./scraper";
+import { scrapeMangapill, scrape9Anime } from "./cronsOperations";
 import { Env } from "./types";
 import { manageMessage, sendMessage, sendMangaNotification, sendAnimeNotification } from "./telegramLogic";
 export default {
