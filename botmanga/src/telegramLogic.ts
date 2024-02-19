@@ -62,9 +62,9 @@ export async function manageMessage(payload:any,env:Env){
 async function sendAllMangas(token:string,chatID:string,mangas:string[]){
     if(mangas.length == 0)
         return
-    let text = "Hey, <b>wake up!</b> New <b>chapters</b> dropped!\n"
+    let text = "Hey, <b>wake up‼️</b> New <b>chapters</b> dropped 📖!\n"
     mangas.map((manga)=>{
-        text += `- <b>${removeSpecialCaracters(replaceHTMLCodes(manga))}</b> has been released.\n\n`
+        text += `> [<b>${removeSpecialCaracters(replaceHTMLCodes(manga))}</b>] has been released.\n\n`
     })
     await sendMessage(token,chatID,text)
 }
@@ -72,9 +72,9 @@ async function sendAllMangas(token:string,chatID:string,mangas:string[]){
 async function sendAllAnimes(token:string,chatID:string,animes:string[]){
     if(animes.length == 0)
         return
-    let text = "Hey, <b>wake up!</b> New <b>episodes</b> dropped!\n"
+    let text = "Hey, <b>wake up‼️</b> New <b>episodes</b> dropped 📺!\n"
     animes.map((anime)=>{
-        text += `- <b>${removeSpecialCaracters(replaceHTMLCodes(anime))}</b> has been released.\n\n`
+        text += `> [<b>${removeSpecialCaracters(replaceHTMLCodes(anime))}</b>] has been released.\n\n`
     })
     await sendMessage(token,chatID,text)
 }

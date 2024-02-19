@@ -1,4 +1,5 @@
 import { Env } from "../types"
+import {Scraper} from "./scraper"
 
 export class MangapillScraper extends Scraper{
     

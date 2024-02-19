@@ -1,4 +1,4 @@
-class Scraper implements HTMLRewriterElementContentHandlers{
+export class Scraper implements HTMLRewriterElementContentHandlers{
     protected site = ""
     protected KEY = ""
     protected mostRecent = ""

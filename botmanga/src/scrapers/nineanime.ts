@@ -1,5 +1,5 @@
 import { Env } from "../types"
-
+import { Scraper } from "./scraper"
 export class NineAnimeScraper extends Scraper{
     private rewriter = new HTMLRewriter().on("a",this)
 
