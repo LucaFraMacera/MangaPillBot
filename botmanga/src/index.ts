@@ -1,12 +1,12 @@
-import { scrapeMangapill, scrape9Anime } from "./cronsOperations";
+import { scrapeMangapill } from "./cronsOperations";
 import { Env } from "./types";
-import { manageMessage, sendMessage, sendMangaNotification, sendAnimeNotification } from "./telegramLogic";
+import { manageMessage, sendMessage, sendMangaNotification } from "./telegramLogic";
 export default {
 	async scheduled(event: ScheduledEvent, env: Env, ctx: ExecutionContext): Promise<void> {
 		try {
-			const [mangaReleases, animeReleases] = await Promise.all([scrapeMangapill(env),scrape9Anime(env)])
-			await sendMangaNotification(env,mangaReleases)
-			await sendAnimeNotification(env,animeReleases)
+			const [mangaReleases] = await Promise.all([scrapeMangapill(env)])
+			await sendMangaNotification(env, mangaReleases)
+			//await sendAnimeNotification(env,animeReleases)
 		} catch (error) {
 			await sendMessage(env.BOT_TOKEN,env.CHANNEL_ID,`An error has occured while scraping.\n${error}`)
 		}
